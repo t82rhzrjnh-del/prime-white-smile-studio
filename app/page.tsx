@@ -81,8 +81,8 @@ function SectionLabel({ text }: { text: string }) {
 /* Consistent wrapper — all sections use this for even padding + centering */
 function SectionWrapper({ children, id, bg = "#FFFFFF", className = "" }: { children: React.ReactNode; id: string; bg?: string; className?: string }) {
   return (
-    <section id={id} className={`py-24 md:py-32 ${className}`} style={{ background: bg }}>
-      <div className="w-full max-w-7xl mx-auto px-8 md:px-12 lg:px-16">
+    <section id={id} className={`py-20 md:py-28 ${className}`} style={{ background: bg }}>
+      <div className="w-full max-w-6xl mx-auto px-6 sm:px-8 lg:px-12">
         {children}
       </div>
     </section>
@@ -197,7 +197,7 @@ export default function PrimeSmileStudio() {
           borderBottom: scrolled ? "1px solid rgba(197,165,90,0.15)" : "1px solid transparent",
         }}
       >
-        <div className="w-full max-w-6xl mx-auto px-8 md:px-12 lg:px-16 py-4 flex items-center justify-between">
+        <div className="w-full max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 py-4 flex items-center justify-between">
           <button onClick={() => scrollTo("hero")} className="font-serif text-2xl font-semibold tracking-wide" style={{ color: "#C5A55A" }}>
             Prime Smile Studio
           </button>
@@ -236,7 +236,7 @@ export default function PrimeSmileStudio() {
         <div className="absolute top-24 left-8 md:left-16 w-20 h-20 border-t border-l opacity-30" style={{ borderColor: "#C5A55A" }} />
         <div className="absolute bottom-12 right-8 md:right-16 w-20 h-20 border-b border-r opacity-30" style={{ borderColor: "#C5A55A" }} />
 
-        <div className="relative z-10 text-center px-8 md:px-12 max-w-3xl mx-auto">
+        <div className="relative z-10 text-center px-6 sm:px-8 lg:px-12 max-w-3xl mx-auto">
           <Reveal delay={0}>
             <SectionLabel text="Cosmetic Teeth Whitening" />
           </Reveal>
@@ -529,21 +529,23 @@ export default function PrimeSmileStudio() {
         </RevealGroup>
       </SectionWrapper>
 
-      <section className="py-20 md:py-24 px-8 md:px-12 text-center" style={{ background: "#2A2A2A" }}>
-        <Reveal>
-          <h2 className="font-serif text-3xl md:text-4xl font-light mb-6 text-white">
-            Your Confidence Starts With <span className="gold-text italic">One Session</span>
-          </h2>
-        </Reveal>
-        <Reveal delay={200}>
-          <a href="https://instagram.com/primesmilestudio" target="_blank" rel="noopener noreferrer" className="cta-btn inline-block gold-gradient text-white font-sans-elegant text-xs uppercase tracking-[0.25em] font-medium px-10 py-4 rounded-none">
-            Book On Instagram
-          </a>
-        </Reveal>
+      <section className="py-20 md:py-28" style={{ background: "#2A2A2A" }}>
+        <div className="w-full max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 text-center">
+          <Reveal>
+            <h2 className="font-serif text-3xl md:text-4xl font-light mb-6 text-white">
+              Your Confidence Starts With <span className="gold-text italic">One Session</span>
+            </h2>
+          </Reveal>
+          <Reveal delay={200}>
+            <a href="https://instagram.com/primesmilestudio" target="_blank" rel="noopener noreferrer" className="cta-btn inline-block gold-gradient text-white font-sans-elegant text-xs uppercase tracking-[0.25em] font-medium px-10 py-4 rounded-none">
+              Book On Instagram
+            </a>
+          </Reveal>
+        </div>
       </section>
 
       <footer className="py-12 bg-white" style={{ borderTop: "1px solid rgba(197,165,90,0.15)" }}>
-        <div className="w-full max-w-6xl mx-auto px-8 md:px-12 lg:px-16 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+        <div className="w-full max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
           <p className="font-serif text-lg font-medium" style={{ color: "#C5A55A" }}>Prime Smile Studio</p>
           <div className="flex items-center gap-6">
             <a
