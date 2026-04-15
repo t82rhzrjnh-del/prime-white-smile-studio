@@ -3,31 +3,24 @@
 import { useState, useEffect, useRef, type ReactNode, type MouseEvent } from "react";
 
 // --- Scroll Animation Hook ---
-function useScrollReveal(options: { threshold?: number; rootMargin?: string } = {}) {
-  const ref = useRef<HTMLDivElement | null>(null);
+function useScrollReveal(options: { threshold?: number; rootMargin?: string } = {}): [React.RefObject<HTMLDivElement | null>, boolean] {
+  const ref = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
-
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setIsVisible(true);
-      },
+      ([entry]) => { if (entry.isIntersecting) setIsVisible(true); },
       { threshold: options.threshold || 0.15, rootMargin: options.rootMargin || "0px" }
     );
-
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
-
-  return [ref, isVisible] as const;
+  return [ref, isVisible];
 }
 
-function RevealGroup({ children, className = "", delay = 120 }: { children: ReactNode; className?: string; delay?: number }) {
+function RevealGroup({ children, className = "", delay = 120 }: { children: React.ReactNode; className?: string; delay?: number }) {
   const [ref, isVisible] = useScrollReveal({ threshold: 0.1 });
-
   return (
     <div ref={ref} className={className}>
       {Array.isArray(children)
@@ -43,31 +36,15 @@ function RevealGroup({ children, className = "", delay = 120 }: { children: Reac
               {child}
             </div>
           ))
-        : (
-          <div
-            style={{
-              opacity: isVisible ? 1 : 0,
-              transform: isVisible ? "translateY(0)" : "translateY(36px)",
-              transition: "opacity 0.7s cubic-bezier(.22,1,.36,1), transform 0.7s cubic-bezier(.22,1,.36,1)",
-            }}
-          >
-            {children}
-          </div>
-        )}
+        : <div style={{ opacity: isVisible ? 1 : 0, transform: isVisible ? "translateY(0)" : "translateY(36px)", transition: "opacity 0.7s cubic-bezier(.22,1,.36,1), transform 0.7s cubic-bezier(.22,1,.36,1)" }}>{children}</div>
+      }
     </div>
   );
 }
 
-function Reveal({ children, className = "", delay = 0, direction = "up" }: { children: ReactNode; className?: string; delay?: number; direction?: "up" | "down" | "left" | "right" | "none" }) {
+function Reveal({ children, className = "", delay = 0, direction = "up" }: { children: React.ReactNode; className?: string; delay?: number; direction?: "up" | "down" | "left" | "right" | "none" }) {
   const [ref, isVisible] = useScrollReveal();
-  const transforms = {
-    up: "translateY(40px)",
-    down: "translateY(-40px)",
-    left: "translateX(40px)",
-    right: "translateX(-40px)",
-    none: "none",
-  };
-
+  const transforms = { up: "translateY(40px)", down: "translateY(-40px)", left: "translateX(40px)", right: "translateX(-40px)", none: "none" };
   return (
     <div
       ref={ref}
@@ -101,10 +78,13 @@ function SectionLabel({ text }: { text: string }) {
   );
 }
 
-function SectionWrapper({ children, id, bg = "#FFFFFF", className = "" }: { children: ReactNode; id: string; bg?: string; className?: string }) {
+/* Consistent wrapper — all sections use this for even padding + centering */
+function SectionWrapper({ children, id, bg = "#FFFFFF", className = "" }: { children: React.ReactNode; id: string; bg?: string; className?: string }) {
   return (
     <section id={id} className={`py-24 md:py-32 ${className}`} style={{ background: bg }}>
-      <div className="w-full max-w-6xl mx-auto px-8 md:px-12 lg:px-16">{children}</div>
+      <div className="w-full max-w-6xl mx-auto px-8 md:px-12 lg:px-16">
+        {children}
+      </div>
     </section>
   );
 }
@@ -121,11 +101,26 @@ export default function PrimeSmileStudio() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
+  const [formLoading, setFormLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setFormSent(true);
-    setTimeout(() => setFormSent(false), 4000);
-    setFormData({ name: "", email: "", message: "" });
+    setFormLoading(true);
+    try {
+      const res = await fetch("https://formspree.io/f/meevoywz", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      if (res.ok) {
+        setFormSent(true);
+        setFormData({ name: "", email: "", message: "" });
+      }
+    } catch (err) {
+      console.error("Form submission error:", err);
+    } finally {
+      setFormLoading(false);
+    }
   };
 
   const scrollTo = (id: string) => {
@@ -143,6 +138,54 @@ export default function PrimeSmileStudio() {
 
   return (
     <div className="min-h-screen bg-white" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap');
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        .font-sans-elegant { font-family: 'Montserrat', sans-serif; }
+        .font-serif { font-family: 'Cormorant Garamond', Georgia, serif; }
+
+        .gold-gradient { background: linear-gradient(135deg, #C5A55A 0%, #E8D5A3 40%, #C5A55A 60%, #A8893D 100%); }
+        .gold-text { background: linear-gradient(135deg, #C5A55A 0%, #E8D5A3 50%, #C5A55A 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+        .pricing-card { transition: transform 0.5s cubic-bezier(.22,1,.36,1), box-shadow 0.5s cubic-bezier(.22,1,.36,1); }
+        .pricing-card:hover { transform: translateY(-8px); box-shadow: 0 24px 60px -12px rgba(197,165,90,0.18), 0 8px 24px -8px rgba(0,0,0,0.06); }
+
+        .cta-btn { position: relative; overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .cta-btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transition: left 0.6s ease; }
+        .cta-btn:hover::before { left: 100%; }
+        .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px -6px rgba(197,165,90,0.45); }
+
+        .ba-card { transition: transform 0.4s ease, box-shadow 0.4s ease; }
+        .ba-card:hover { transform: scale(1.03); box-shadow: 0 16px 40px -10px rgba(0,0,0,0.1); }
+
+        .aftercare-card { transition: transform 0.4s cubic-bezier(.22,1,.36,1), border-color 0.4s ease; }
+        .aftercare-card:hover { transform: translateY(-4px); border-color: #C5A55A; }
+
+        .nav-link { position: relative; }
+        .nav-link::after { content: ''; position: absolute; bottom: -2px; left: 50%; width: 0; height: 1px; background: #C5A55A; transition: width 0.3s ease, left 0.3s ease; }
+        .nav-link:hover::after { width: 100%; left: 0; }
+
+        .hero-shimmer { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(120deg, transparent 30%, rgba(197,165,90,0.04) 50%, transparent 70%); animation: shimmer 6s ease-in-out infinite; }
+        @keyframes shimmer { 0%, 100% { opacity: 0; transform: translateX(-60%); } 50% { opacity: 1; transform: translateX(60%); } }
+
+        .float-subtle { animation: floatSubtle 6s ease-in-out infinite; }
+        @keyframes floatSubtle { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .input-field { transition: border-color 0.3s ease, box-shadow 0.3s ease; }
+        .input-field:focus { border-color: #C5A55A; box-shadow: 0 0 0 3px rgba(197,165,90,0.1); outline: none; }
+
+        .grain-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; opacity: 0.018; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+        .outline-btn { border: 1px solid #C5A55A; color: #C5A55A; background: transparent; transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; }
+        .outline-btn:hover { background: #C5A55A; color: #fff; transform: translateY(-2px); box-shadow: 0 8px 24px -6px rgba(197,165,90,0.35); }
+
+        ::selection { background: rgba(197,165,90,0.2); }
+      `}</style>
 
       <div className="grain-overlay" />
 
@@ -345,18 +388,25 @@ export default function PrimeSmileStudio() {
         </div>
 
         <RevealGroup className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-4xl mx-auto" delay={140}>
-          {[1, 2, 3].map((n) => (
-            <div key={n} className="ba-card overflow-hidden" style={{ border: "1px solid rgba(197,165,90,0.15)" }}>
-              <div className="grid grid-cols-2">
-                <div className="aspect-square flex items-center justify-center" style={{ background: "#E8E4DE" }}>
-                  <span className="font-sans-elegant text-xs uppercase tracking-[0.2em] font-medium" style={{ color: "#aaa" }}>Before</span>
+          {[
+            { src: "/images/ba-1.jpeg", label: "Client 1" },
+            { src: "/images/ba-2.jpeg", label: "Client 2" },
+            { src: "/images/ba-3.jpeg", label: "Client 3" },
+            { src: "/images/ba-4.jpeg", label: "Client 4" },
+            { src: "/images/ba-5.jpeg", label: "Client 5" },
+          ].map((item, i) => (
+            <div key={i} className={`ba-card overflow-hidden${i === 4 ? " sm:col-start-1 lg:col-start-2" : ""}`} style={{ border: "1px solid rgba(197,165,90,0.15)" }}>
+              <div className="relative">
+                <img src={item.src} alt={`${item.label} before and after`} className="w-full h-auto block" loading="lazy" />
+                <div className="absolute top-3 left-3 flex gap-2">
+                  <span className="font-sans-elegant text-[9px] uppercase tracking-[0.15em] font-semibold px-2.5 py-1" style={{ background: "rgba(42,42,42,0.7)", color: "#fff", backdropFilter: "blur(4px)" }}>Before</span>
                 </div>
-                <div className="aspect-square flex items-center justify-center" style={{ background: "#F5F1EB" }}>
-                  <span className="font-sans-elegant text-xs uppercase tracking-[0.2em] font-medium" style={{ color: "#C5A55A" }}>After</span>
+                <div className="absolute bottom-3 left-3 flex gap-2">
+                  <span className="font-sans-elegant text-[9px] uppercase tracking-[0.15em] font-semibold px-2.5 py-1" style={{ background: "rgba(197,165,90,0.85)", color: "#fff", backdropFilter: "blur(4px)" }}>After</span>
                 </div>
               </div>
               <div className="py-3 px-4 text-center" style={{ background: "#fff" }}>
-                <p className="font-sans-elegant text-[10px] uppercase tracking-[0.15em]" style={{ color: "#bbb" }}>Client {n} — 60 Minute Session</p>
+                <p className="font-sans-elegant text-[10px] uppercase tracking-[0.15em]" style={{ color: "#bbb" }}>{item.label} — 60 Minute Session</p>
               </div>
             </div>
           ))}
@@ -421,44 +471,23 @@ export default function PrimeSmileStudio() {
                   <p className="font-sans-elegant text-xs font-light mt-1" style={{ color: "#999" }}>We'll be in touch shortly.</p>
                 </div>
               ) : (
-                <div className="flex flex-col gap-5">
+                <form onSubmit={handleSubmit} className="flex flex-col gap-5">
                   <div>
                     <label className="font-sans-elegant text-[10px] uppercase tracking-[0.2em] font-medium mb-2 block" style={{ color: "#999" }}>Name</label>
-                    <input
-                      type="text"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="input-field w-full bg-white border px-4 py-3 font-sans-elegant text-sm font-light rounded-none"
-                      style={{ borderColor: "rgba(197,165,90,0.2)", color: "#2A2A2A" }}
-                      placeholder="Your name"
-                    />
+                    <input type="text" name="name" required value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="input-field w-full bg-white border px-4 py-3 font-sans-elegant text-sm font-light rounded-none" style={{ borderColor: "rgba(197,165,90,0.2)", color: "#2A2A2A" }} placeholder="Your name" />
                   </div>
                   <div>
                     <label className="font-sans-elegant text-[10px] uppercase tracking-[0.2em] font-medium mb-2 block" style={{ color: "#999" }}>Email</label>
-                    <input
-                      type="email"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="input-field w-full bg-white border px-4 py-3 font-sans-elegant text-sm font-light rounded-none"
-                      style={{ borderColor: "rgba(197,165,90,0.2)", color: "#2A2A2A" }}
-                      placeholder="your@email.com"
-                    />
+                    <input type="email" name="email" required value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="input-field w-full bg-white border px-4 py-3 font-sans-elegant text-sm font-light rounded-none" style={{ borderColor: "rgba(197,165,90,0.2)", color: "#2A2A2A" }} placeholder="your@email.com" />
                   </div>
                   <div>
                     <label className="font-sans-elegant text-[10px] uppercase tracking-[0.2em] font-medium mb-2 block" style={{ color: "#999" }}>Message</label>
-                    <textarea
-                      value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      rows={4}
-                      className="input-field w-full bg-white border px-4 py-3 font-sans-elegant text-sm font-light rounded-none resize-none"
-                      style={{ borderColor: "rgba(197,165,90,0.2)", color: "#2A2A2A" }}
-                      placeholder="Tell us what you're interested in..."
-                    />
+                    <textarea name="message" required value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} rows={4} className="input-field w-full bg-white border px-4 py-3 font-sans-elegant text-sm font-light rounded-none resize-none" style={{ borderColor: "rgba(197,165,90,0.2)", color: "#2A2A2A" }} placeholder="Tell us what you're interested in..." />
                   </div>
-                  <button onClick={handleSubmit} className="cta-btn gold-gradient text-white font-sans-elegant text-xs uppercase tracking-[0.25em] font-medium py-3.5 px-8 rounded-none mt-2">
-                    Send Enquiry
+                  <button type="submit" disabled={formLoading} className="cta-btn gold-gradient text-white font-sans-elegant text-xs uppercase tracking-[0.25em] font-medium py-3.5 px-8 rounded-none mt-2" style={{ opacity: formLoading ? 0.7 : 1 }}>
+                    {formLoading ? "Sending..." : "Send Enquiry"}
                   </button>
-                </div>
+                </form>
               )}
             </div>
           </Reveal>
