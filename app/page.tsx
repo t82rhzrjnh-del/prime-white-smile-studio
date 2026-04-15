@@ -82,7 +82,7 @@ function SectionLabel({ text }: { text: string }) {
 function SectionWrapper({ children, id, bg = "#FFFFFF", className = "" }: { children: React.ReactNode; id: string; bg?: string; className?: string }) {
   return (
     <section id={id} className={`py-20 md:py-28 ${className}`} style={{ background: bg }}>
-      <div className="w-full max-w-6xl mx-auto px-6 sm:px-8 lg:px-12">
+      <div className="w-full mx-auto px-6 md:px-10 lg:px-12" style={{ maxWidth: "980px" }}>
         {children}
       </div>
     </section>
@@ -137,7 +137,7 @@ export default function PrimeSmileStudio() {
   ];
 
   return (
-    <div className="min-h-screen bg-white flex flex-col justify-center" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
+    <div className="min-h-screen bg-white flex flex-col overflow-x-hidden" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap');
 
@@ -197,7 +197,7 @@ export default function PrimeSmileStudio() {
           borderBottom: scrolled ? "1px solid rgba(197,165,90,0.15)" : "1px solid transparent",
         }}
       >
-        <div className="w-full max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 py-4 flex items-center justify-between">
+        <div className="w-full mx-auto px-6 md:px-10 lg:px-12 flex items-center justify-between" style={{ maxWidth: "980px", minHeight: "72px" }}>
           <button onClick={() => scrollTo("hero")} className="font-serif text-2xl font-semibold tracking-wide" style={{ color: "#C5A55A" }}>
             Prime Smile Studio
           </button>
@@ -230,13 +230,13 @@ export default function PrimeSmileStudio() {
         )}
       </nav>
 
-      <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden" style={{ background: "linear-gradient(180deg, #FFFFFF 0%, #FDFBF7 100%)" }}>
+      <section id="hero" className="relative flex items-center justify-center overflow-hidden" style={{ background: "linear-gradient(180deg, #FFFFFF 0%, #FDFBF7 100%)", minHeight: "calc(100svh - 72px)", paddingTop: "72px", paddingBottom: "40px" }}>
         <div className="hero-shimmer" />
 
         <div className="absolute top-24 left-8 md:left-16 w-20 h-20 border-t border-l opacity-30" style={{ borderColor: "#C5A55A" }} />
         <div className="absolute bottom-12 right-8 md:right-16 w-20 h-20 border-b border-r opacity-30" style={{ borderColor: "#C5A55A" }} />
 
-        <div className="relative z-10 text-center px-6 sm:px-8 lg:px-12 max-w-3xl mx-auto">
+        <div className="relative z-10 text-center w-full mx-auto px-6 md:px-10" style={{ maxWidth: "660px" }}>
           <Reveal delay={0}>
             <SectionLabel text="Cosmetic Teeth Whitening" />
           </Reveal>
@@ -271,7 +271,7 @@ export default function PrimeSmileStudio() {
       </section>
 
       <SectionWrapper id="about" bg="#FDFBF7">
-        <div className="max-w-3xl mx-auto text-center">
+        <div className="w-full max-w-2xl mx-auto text-center">
           <Reveal>
             <SectionLabel text="The Treatment" />
           </Reveal>
@@ -289,7 +289,7 @@ export default function PrimeSmileStudio() {
             </p>
           </Reveal>
         </div>
-        <RevealGroup className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 max-w-3xl mx-auto" delay={150}>
+        <RevealGroup className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 w-full max-w-2xl mx-auto" delay={150}>
           {[
             { icon: "◷", title: "60 Minutes", desc: "Quick, comfortable sessions that fit around your schedule" },
             { icon: "✦", title: "Visible Results", desc: "Noticeably brighter teeth from your very first session" },
@@ -319,7 +319,7 @@ export default function PrimeSmileStudio() {
           </Reveal>
         </div>
 
-        <RevealGroup className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 max-w-4xl mx-auto items-start" delay={180}>
+        <RevealGroup className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 w-full max-w-3xl mx-auto items-start" delay={180}>
           <div className="pricing-card border rounded-none p-8 md:p-10 flex flex-col items-center text-center h-full" style={{ borderColor: "rgba(197,165,90,0.25)" }}>
             <p className="font-sans-elegant text-xs uppercase tracking-[0.2em] font-medium mb-6" style={{ color: "#999" }}>Standard</p>
             <p className="font-serif text-5xl font-light mb-1" style={{ color: "#2A2A2A" }}>£85</p>
@@ -387,7 +387,7 @@ export default function PrimeSmileStudio() {
           </Reveal>
         </div>
 
-        <RevealGroup className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-4xl mx-auto" delay={140}>
+        <RevealGroup className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-3xl mx-auto" delay={140}>
           {[
             { src: "/images/teeth/ba-1.jpeg", label: "Client 1" },
             { src: "/images/teeth/ba-3.jpeg", label: "Client 3" },
@@ -427,7 +427,7 @@ export default function PrimeSmileStudio() {
           </Reveal>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16 max-w-4xl mx-auto items-start">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16 w-full max-w-3xl mx-auto items-start">
           <Reveal direction="right">
             <div className="text-center md:text-left flex flex-col items-center md:items-start">
               <h3 className="font-serif text-2xl font-light mb-4" style={{ color: "#2A2A2A" }}>
@@ -513,7 +513,7 @@ export default function PrimeSmileStudio() {
           </Reveal>
         </div>
 
-        <RevealGroup className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl mx-auto" delay={120}>
+        <RevealGroup className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-3xl mx-auto" delay={120}>
           {[
             { num: "01", title: "Avoid Staining", desc: "Limit coffee, tea, red wine and dark-coloured foods for 48 hours after your treatment." },
             { num: "02", title: "Stay Hydrated", desc: "Drink plenty of water to keep your mouth fresh and help wash away surface stains daily." },
@@ -530,7 +530,7 @@ export default function PrimeSmileStudio() {
       </SectionWrapper>
 
       <section className="py-20 md:py-28" style={{ background: "#2A2A2A" }}>
-        <div className="w-full max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 text-center">
+        <div className="w-full mx-auto px-6 md:px-10 lg:px-12 text-center" style={{ maxWidth: "980px" }}>
           <Reveal>
             <h2 className="font-serif text-3xl md:text-4xl font-light mb-6 text-white">
               Your Confidence Starts With <span className="gold-text italic">One Session</span>
@@ -545,9 +545,9 @@ export default function PrimeSmileStudio() {
       </section>
 
       <footer className="py-12 bg-white" style={{ borderTop: "1px solid rgba(197,165,90,0.15)" }}>
-        <div className="w-full max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
-          <p className="font-serif text-lg font-medium" style={{ color: "#C5A55A" }}>Prime Smile Studio</p>
-          <div className="flex items-center gap-6">
+        <div className="w-full mx-auto px-6 md:px-10 lg:px-12 grid grid-cols-1 lg:grid-cols-3 items-center gap-6 text-center" style={{ maxWidth: "980px" }}>
+          <p className="font-serif text-lg font-medium lg:justify-self-start" style={{ color: "#C5A55A" }}>Prime Smile Studio</p>
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
             <a
               href="https://instagram.com/primesmilestudio"
               target="_blank"
@@ -564,10 +564,10 @@ export default function PrimeSmileStudio() {
               </svg>
               @primesmilestudio
             </a>
-            <span className="font-sans-elegant text-xs font-light" style={{ color: "#ccc" }}>|</span>
+            <span className="hidden sm:inline font-sans-elegant text-xs font-light" style={{ color: "#ccc" }}>|</span>
             <span className="font-sans-elegant text-xs font-light" style={{ color: "#999" }}>North East, England</span>
           </div>
-          <p className="font-sans-elegant text-[10px] font-light tracking-wide" style={{ color: "#ccc" }}>
+          <p className="font-sans-elegant text-[10px] font-light tracking-wide lg:justify-self-end" style={{ color: "#ccc" }}>
             © {new Date().getFullYear()} Prime Smile Studio. All rights reserved.
           </p>
         </div>
