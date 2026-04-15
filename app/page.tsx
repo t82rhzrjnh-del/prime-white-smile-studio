@@ -82,7 +82,7 @@ function SectionLabel({ text }: { text: string }) {
 function SectionWrapper({ children, id, bg = "#FFFFFF", className = "" }: { children: React.ReactNode; id: string; bg?: string; className?: string }) {
   return (
     <section id={id} className={`py-24 md:py-32 ${className}`} style={{ background: bg }}>
-      <div className="w-full max-w-6xl mx-auto px-8 md:px-12 lg:px-16">
+      <div className="w-full max-w-7xl mx-auto px-8 md:px-12 lg:px-16">
         {children}
       </div>
     </section>
@@ -137,7 +137,7 @@ export default function PrimeSmileStudio() {
   ];
 
   return (
-    <div className="min-h-screen bg-white" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
+    <div className="min-h-screen bg-white flex flex-col justify-center" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap');
 
