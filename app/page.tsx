@@ -72,9 +72,14 @@ function GoldDivider() {
 
 function SectionLabel({ text }: { text: string }) {
   return (
-    <p className="uppercase tracking-[0.35em] text-xs font-medium mb-3 text-center" style={{ color: "#C5A55A", fontFamily: "'Montserrat', sans-serif" }}>
-      {text}
-    </p>
+    <div className="w-full flex justify-center">
+      <p
+        className="uppercase tracking-[0.28em] text-xs font-medium mb-3 text-center leading-none inline-block"
+        style={{ color: "#C5A55A", fontFamily: "'Montserrat', sans-serif" }}
+      >
+        {text}
+      </p>
+    </div>
   );
 }
 
@@ -82,7 +87,7 @@ function SectionLabel({ text }: { text: string }) {
 function SectionWrapper({ children, id, bg = "#FFFFFF", className = "" }: { children: React.ReactNode; id: string; bg?: string; className?: string }) {
   return (
     <section id={id} className={`py-20 md:py-28 ${className}`} style={{ background: bg }}>
-      <div className="w-full mx-auto px-6 md:px-10 lg:px-12" style={{ maxWidth: "980px" }}>
+      <div className="site-shell">
         {children}
       </div>
     </section>
@@ -184,6 +189,11 @@ export default function PrimeSmileStudio() {
         .outline-btn { border: 1px solid #C5A55A; color: #C5A55A; background: transparent; transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; }
         .outline-btn:hover { background: #C5A55A; color: #fff; transform: translateY(-2px); box-shadow: 0 8px 24px -6px rgba(197,165,90,0.35); }
 
+        .site-shell { width: 100%; max-width: 900px; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; }
+        @media (min-width: 768px) {
+          .site-shell { padding-left: 32px; padding-right: 32px; }
+        }
+
         ::selection { background: rgba(197,165,90,0.2); }
       `}</style>
 
@@ -197,7 +207,7 @@ export default function PrimeSmileStudio() {
           borderBottom: scrolled ? "1px solid rgba(197,165,90,0.15)" : "1px solid transparent",
         }}
       >
-        <div className="w-full mx-auto px-6 md:px-10 lg:px-12 flex items-center justify-between" style={{ maxWidth: "980px", minHeight: "72px" }}>
+        <div className="site-shell flex items-center justify-between" style={{ minHeight: "72px" }}>
           <button onClick={() => scrollTo("hero")} className="font-serif text-2xl font-semibold tracking-wide" style={{ color: "#C5A55A" }}>
             Prime Smile Studio
           </button>
@@ -236,7 +246,7 @@ export default function PrimeSmileStudio() {
         <div className="absolute top-24 left-8 md:left-16 w-20 h-20 border-t border-l opacity-30" style={{ borderColor: "#C5A55A" }} />
         <div className="absolute bottom-12 right-8 md:right-16 w-20 h-20 border-b border-r opacity-30" style={{ borderColor: "#C5A55A" }} />
 
-        <div className="relative z-10 text-center w-full mx-auto px-6 md:px-10" style={{ maxWidth: "660px" }}>
+        <div className="relative z-10 text-center w-full mx-auto px-6 md:px-8" style={{ maxWidth: "660px" }}>
           <Reveal delay={0}>
             <SectionLabel text="Cosmetic Teeth Whitening" />
           </Reveal>
@@ -247,9 +257,14 @@ export default function PrimeSmileStudio() {
             </h1>
           </Reveal>
           <Reveal delay={400}>
-            <p className="font-sans-elegant text-sm md:text-base font-light leading-relaxed mb-10 max-w-lg mx-auto" style={{ color: "#777" }}>
-              Reveal the confidence that comes with a radiant, naturally brighter smile. Premium cosmetic whitening in the North East of England.
-            </p>
+            <div className="w-full flex justify-center">
+              <p
+                className="font-sans-elegant text-sm md:text-base font-light leading-relaxed mb-10"
+                style={{ color: "#777", maxWidth: "520px", textAlign: "center" }}
+              >
+                Reveal the confidence that comes with a radiant, naturally brighter smile. Premium cosmetic whitening in the North East of England.
+              </p>
+            </div>
           </Reveal>
           <Reveal delay={600}>
             <button onClick={() => scrollTo("booking")} className="cta-btn gold-gradient text-white font-sans-elegant text-xs uppercase tracking-[0.25em] font-medium px-10 py-4 rounded-none">
@@ -271,25 +286,32 @@ export default function PrimeSmileStudio() {
       </section>
 
       <SectionWrapper id="about" bg="#FDFBF7">
-        <div className="w-full max-w-2xl mx-auto text-center">
+        <div className="text-center" style={{ maxWidth: "760px", margin: "0 auto" }}>
           <Reveal>
             <SectionLabel text="The Treatment" />
           </Reveal>
           <Reveal delay={150}>
-            <h2 className="font-serif text-3xl md:text-5xl font-light mb-4" style={{ color: "#2A2A2A" }}>
-              What Is Cosmetic<br />Teeth Whitening?
+            <h2 className="font-serif text-3xl md:text-5xl font-light mb-4 mx-auto leading-[1.08]" style={{ color: "#2A2A2A" }}>
+              What Is Cosmetic
+              <br />
+              Teeth Whitening?
             </h2>
           </Reveal>
           <Reveal delay={250}>
             <GoldDivider />
           </Reveal>
           <Reveal delay={350}>
-            <p className="font-sans-elegant text-sm md:text-base font-light leading-[1.9] mt-8 max-w-2xl mx-auto" style={{ color: "#666" }}>
-              A professional cosmetic treatment designed to lighten the natural shade of your teeth and reduce stains caused by coffee, tea, red wine, smoking, and everyday habits. Each session takes just 60 minutes in a relaxed, comfortable setting. Results vary between individuals but are long-lasting when supported by good aftercare and daily habits.
-            </p>
+            <div className="w-full flex justify-center">
+              <p
+                className="font-sans-elegant text-sm md:text-base font-light leading-[1.9] mt-8"
+                style={{ color: "#666", maxWidth: "560px", textAlign: "center" }}
+              >
+                A professional cosmetic treatment designed to lighten the natural shade of your teeth and reduce stains caused by coffee, tea, red wine, smoking, and everyday habits. Each session takes just 60 minutes in a relaxed, comfortable setting. Results vary between individuals but are long-lasting when supported by good aftercare and daily habits.
+              </p>
+            </div>
           </Reveal>
         </div>
-        <RevealGroup className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 w-full max-w-2xl mx-auto" delay={150}>
+        <RevealGroup className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16" delay={150}>
           {[
             { icon: "◷", title: "60 Minutes", desc: "Quick, comfortable sessions that fit around your schedule" },
             { icon: "✦", title: "Visible Results", desc: "Noticeably brighter teeth from your very first session" },
@@ -319,7 +341,8 @@ export default function PrimeSmileStudio() {
           </Reveal>
         </div>
 
-        <RevealGroup className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 w-full max-w-3xl mx-auto items-start" delay={180}>
+        <div style={{ maxWidth: "760px", margin: "0 auto" }}>
+        <RevealGroup className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 items-start" delay={180}>
           <div className="pricing-card border rounded-none p-8 md:p-10 flex flex-col items-center text-center h-full" style={{ borderColor: "rgba(197,165,90,0.25)" }}>
             <p className="font-sans-elegant text-xs uppercase tracking-[0.2em] font-medium mb-6" style={{ color: "#999" }}>Standard</p>
             <p className="font-serif text-5xl font-light mb-1" style={{ color: "#2A2A2A" }}>£85</p>
@@ -365,6 +388,7 @@ export default function PrimeSmileStudio() {
             </button>
           </div>
         </RevealGroup>
+        </div>
       </SectionWrapper>
 
       <SectionWrapper id="results" bg="#FDFBF7">
@@ -387,7 +411,8 @@ export default function PrimeSmileStudio() {
           </Reveal>
         </div>
 
-        <RevealGroup className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-3xl mx-auto" delay={140}>
+        <div style={{ maxWidth: "760px", margin: "0 auto" }}>
+        <RevealGroup className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" delay={140}>
           {[
             { src: "/images/teeth/ba-1.jpeg", label: "Client 1" },
             { src: "/images/teeth/ba-3.jpeg", label: "Client 3" },
@@ -410,6 +435,7 @@ export default function PrimeSmileStudio() {
             </div>
           ))}
         </RevealGroup>
+        </div>
       </SectionWrapper>
 
       <SectionWrapper id="booking" bg="#FFFFFF">
@@ -427,7 +453,7 @@ export default function PrimeSmileStudio() {
           </Reveal>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16 w-full max-w-3xl mx-auto items-start">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16 items-start" style={{ maxWidth: "760px", margin: "0 auto" }}>
           <Reveal direction="right">
             <div className="text-center md:text-left flex flex-col items-center md:items-start">
               <h3 className="font-serif text-2xl font-light mb-4" style={{ color: "#2A2A2A" }}>
@@ -493,8 +519,8 @@ export default function PrimeSmileStudio() {
         </div>
       </SectionWrapper>
 
-      <SectionWrapper id="aftercare" bg="#FDFBF7">
-        <div className="text-center">
+      <SectionWrapper id="aftercare" bg="#FDFBF7" className="pt-28 md:pt-36 pb-40 md:pb-44">
+        <div className="text-center" style={{ maxWidth: "760px", margin: "0 auto" }}>
           <Reveal>
             <SectionLabel text="Aftercare" />
           </Reveal>
@@ -507,13 +533,15 @@ export default function PrimeSmileStudio() {
             <GoldDivider />
           </Reveal>
           <Reveal delay={350}>
-            <p className="font-sans-elegant text-sm font-light mt-6 mb-14 max-w-md mx-auto" style={{ color: "#888" }}>
-              A few simple habits to keep your smile looking its best for as long as possible.
-            </p>
+            <div className="w-full flex justify-center">
+              <p className="font-sans-elegant text-sm font-light mt-6 mb-14" style={{ color: "#888", maxWidth: "560px", textAlign: "center" }}>
+                A few simple habits to keep your smile looking its best for as long as possible.
+              </p>
+            </div>
           </Reveal>
         </div>
 
-        <RevealGroup className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-3xl mx-auto" delay={120}>
+        <RevealGroup className="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-4 gap-7 md:gap-8 w-full max-w-4xl mx-auto" delay={120}>
           {[
             { num: "01", title: "Avoid Staining", desc: "Limit coffee, tea, red wine and dark-coloured foods for 48 hours after your treatment." },
             { num: "02", title: "Stay Hydrated", desc: "Drink plenty of water to keep your mouth fresh and help wash away surface stains daily." },
@@ -529,8 +557,10 @@ export default function PrimeSmileStudio() {
         </RevealGroup>
       </SectionWrapper>
 
+      <section aria-hidden="true" className="h-16 md:h-24" style={{ background: "#FDFBF7" }} />
+
       <section className="py-20 md:py-28" style={{ background: "#2A2A2A" }}>
-        <div className="w-full mx-auto px-6 md:px-10 lg:px-12 text-center" style={{ maxWidth: "980px" }}>
+        <div className="site-shell text-center">
           <Reveal>
             <h2 className="font-serif text-3xl md:text-4xl font-light mb-6 text-white">
               Your Confidence Starts With <span className="gold-text italic">One Session</span>
@@ -545,7 +575,7 @@ export default function PrimeSmileStudio() {
       </section>
 
       <footer className="py-12 bg-white" style={{ borderTop: "1px solid rgba(197,165,90,0.15)" }}>
-        <div className="w-full mx-auto px-6 md:px-10 lg:px-12 grid grid-cols-1 lg:grid-cols-3 items-center gap-6 text-center" style={{ maxWidth: "980px" }}>
+        <div className="site-shell grid grid-cols-1 lg:grid-cols-3 items-center gap-6 text-center">
           <p className="font-serif text-lg font-medium lg:justify-self-start" style={{ color: "#C5A55A" }}>Prime Smile Studio</p>
           <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
             <a
