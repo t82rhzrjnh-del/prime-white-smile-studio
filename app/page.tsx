@@ -389,10 +389,10 @@ export default function PrimeSmileStudio() {
 
         <RevealGroup className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-4xl mx-auto" delay={140}>
           {[
-            { src: "/images/ba-1.jpeg", label: "Client 1" },
-            { src: "/images/ba-3.jpeg", label: "Client 3" },
-            { src: "/images/ba-4.jpeg", label: "Client 4" },
-            { src: "/images/ba-5.jpeg", label: "Client 5" },
+            { src: "/images/teeth/ba-1.jpeg", label: "Client 1" },
+            { src: "/images/teeth/ba-3.jpeg", label: "Client 3" },
+            { src: "/images/teeth/ba-4.jpeg", label: "Client 4" },
+            { src: "/images/teeth/ba-5.jpeg", label: "Client 5" },
           ].map((item, i) => (
             <div key={i} className="ba-card overflow-hidden" style={{ border: "1px solid rgba(197,165,90,0.15)" }}>
               <div className="relative">
